@@ -5,7 +5,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import com.wayne.library.listener.OnSingleClickListener
+import com.wayne.library.utils.OnSingleClickListener
 
 @BindingAdapter("android:visibleIf")
 fun View.setVisibleIf(value: Boolean) {

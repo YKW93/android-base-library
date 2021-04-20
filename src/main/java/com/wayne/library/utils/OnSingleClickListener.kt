@@ -1,4 +1,4 @@
-package com.wayne.library.listener
+package com.wayne.library.utils
 
 import android.view.View
 import java.util.concurrent.atomic.AtomicBoolean
@@ -8,7 +8,9 @@ class OnSingleClickListener(private val listener: View.OnClickListener) : View.O
 
     override fun onClick(v: View) {
         if (canClick.getAndSet(false)) {
-            v.postDelayed({ canClick.set(true) }, INTERVAL_MILLIS)
+            v.postDelayed({ canClick.set(true) },
+                INTERVAL_MILLIS
+            )
             listener.onClick(v)
         }
     }

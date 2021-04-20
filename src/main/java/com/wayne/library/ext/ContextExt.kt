@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
+import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresPermission
@@ -43,4 +44,16 @@ fun Context.showKeyboard(view: View) {
 fun Context.hideKeyboard(view: View) {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Context.dpToPx(px: Number): Float {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        px.toFloat(),
+        resources.displayMetrics
+    )
+}
+
+fun Context.spToPx(px: Number): Float {
+    return px.toFloat() * resources.displayMetrics.scaledDensity
 }
