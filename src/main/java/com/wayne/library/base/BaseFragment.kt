@@ -8,12 +8,23 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelLazy
+import com.wayne.library.BR
+import kotlin.reflect.KClass
 
-abstract class BaseFragment<B : ViewDataBinding>(
-    @LayoutRes private val layoutId: Int
+@Suppress("UNCHECKED_CAST")
+abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
+    @LayoutRes private val layoutId: Int,
+    private val viewModelClass: KClass<VM>,
 ) : Fragment() {
 
     protected lateinit var binding: B
+
+    protected val viewModel by ViewModelLazy(
+        this.viewModelClass,
+        { viewModelStore },
+        { defaultViewModelProviderFactory }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +37,9 @@ abstract class BaseFragment<B : ViewDataBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
+        binding.run {
+            lifecycleOwner = this@BaseFragment
+            setVariable(BR.vm, viewModel)
+        }
     }
 }
