@@ -1,6 +1,7 @@
 package com.wayne.library.ext
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,9 +10,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.RequiresPermission
+import com.wayne.library.R
 
 @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
 fun Context.isNetworkConnected(): Boolean {
@@ -44,6 +48,10 @@ fun Context.showKeyboard(view: View) {
 fun Context.hideKeyboard(view: View) {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Context.showToastMessage(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
 fun Context.dpToPx(px: Number): Float {
