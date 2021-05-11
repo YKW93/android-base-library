@@ -11,7 +11,6 @@ import com.wayne.library.ext.observe
 import com.wayne.library.ext.showToastMessage
 import kotlin.reflect.KClass
 
-@Suppress("UNCHECKED_CAST")
 abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes private val layoutId: Int,
     private val viewModelClass: KClass<VM>,
@@ -28,11 +27,9 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
+
         binding.lifecycleOwner = this
-        binding.run {
-            lifecycleOwner = this@BaseActivity
-            setVariable(BR.vm, viewModel)
-        }
+        binding.setVariable(BR.vm, viewModel)
 
         observe(viewModel.toast) { showToastMessage(it) }
     }

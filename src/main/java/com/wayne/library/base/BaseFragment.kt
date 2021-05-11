@@ -14,7 +14,6 @@ import com.wayne.library.ext.observe
 import com.wayne.library.ext.showToastMessage
 import kotlin.reflect.KClass
 
-@Suppress("UNCHECKED_CAST")
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
     @LayoutRes private val layoutId: Int,
     private val viewModelClass: KClass<VM>,
@@ -34,16 +33,15 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+
+        binding.lifecycleOwner = this
+        binding.setVariable(BR.vm, viewModel)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.run {
-            lifecycleOwner = this@BaseFragment
-            setVariable(BR.vm, viewModel)
-        }
-
         observe(viewModel.toast) { context?.showToastMessage(it) }
     }
 }
