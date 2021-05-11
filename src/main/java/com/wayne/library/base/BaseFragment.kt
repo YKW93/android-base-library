@@ -9,9 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelLazy
+import androidx.navigation.NavArgs
 import com.wayne.library.BR
 import com.wayne.library.ext.observe
 import com.wayne.library.ext.showToastMessage
+import com.wayne.library.utils.EmptyNavArgs
 import kotlin.reflect.KClass
 
 abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
@@ -26,6 +28,8 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
         { viewModelStore },
         { defaultViewModelProviderFactory }
     )
+
+    protected open val navArgs: NavArgs = EmptyNavArgs
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,5 +47,7 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.toast) { context?.showToastMessage(it) }
+
+        viewModel.navArgs(navArgs)
     }
 }
