@@ -7,6 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelLazy
 import com.wayne.library.BR
+import com.wayne.library.ext.observe
+import com.wayne.library.ext.showToastMessage
 import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
@@ -31,5 +33,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : BaseViewModel>(
             lifecycleOwner = this@BaseActivity
             setVariable(BR.vm, viewModel)
         }
+
+        observe(viewModel.toast) { showToastMessage(it) }
     }
 }

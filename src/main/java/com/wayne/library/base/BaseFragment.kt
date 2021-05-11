@@ -10,6 +10,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelLazy
 import com.wayne.library.BR
+import com.wayne.library.ext.observe
+import com.wayne.library.ext.showToastMessage
 import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
@@ -41,5 +43,7 @@ abstract class BaseFragment<B : ViewDataBinding, VM : BaseViewModel>(
             lifecycleOwner = this@BaseFragment
             setVariable(BR.vm, viewModel)
         }
+
+        observe(viewModel.toast) { context?.showToastMessage(it) }
     }
 }
